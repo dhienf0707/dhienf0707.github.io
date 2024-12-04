@@ -73,35 +73,18 @@ const ProjectInfo = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(0, 0, 0, 0.8); /* Dark overlay */
+  background: rgba(0, 0, 0, 0.8);
   color: white;
   padding: 1.5rem;
   text-align: center;
-  transition: all 0.4s ease-in-out;
+  transform: translateY(100%);
+  transition: transform 0.4s ease-in-out;
+  opacity: 0;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  /* Show title by default */
-  & ${ProjectTitle} {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Hide other content initially */
-  & > *:not(${ProjectTitle}) {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.4s ease-in-out;
-  }
-
-  /* Show other content on hover */
-  .info:hover & > *:not(${ProjectTitle}) {
-    opacity: 1;
-    transform: translateY(0);
-  }
 `;
 
 const ProjectDescription = styled.p`
