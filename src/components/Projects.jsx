@@ -63,6 +63,11 @@ const ProjectImage = styled.img`
   transition: transform 0.5s ease-in-out;
 `;
 
+const ProjectTitle = styled.h3`
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+`;
+
 const ProjectInfo = styled.div`
   position: absolute;
   bottom: 0;
@@ -97,11 +102,6 @@ const ProjectInfo = styled.div`
     opacity: 1;
     transform: translateY(0);
   }
-`;
-
-const ProjectTitle = styled.h3`
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
 `;
 
 const ProjectDescription = styled.p`
