@@ -92,10 +92,29 @@ const ProjectDescription = styled.p`
   margin-bottom: 1rem;
 `;
 
-const Toolkit = styled.p`
-  font-size: 0.8rem;
-  color: #ddd;
+const ToolkitContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   margin-bottom: 1rem;
+  justify-content: center;
+`;
+
+const ToolkitItem = styled.span`
+  font-size: 0.8rem;
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 4px 12px;
+  border-radius: 15px;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -159,7 +178,11 @@ const Projects = () => {
               <ProjectInfo className="info">
                 <ProjectTitle>{project.title}</ProjectTitle>
                 <ProjectDescription>{project.description}</ProjectDescription>
-                <Toolkit>Toolkit: {project.toolkit}</Toolkit>
+                <ToolkitContainer>
+                  {project.toolkit.map((tool, index) => (
+                    <ToolkitItem key={index}>{tool}</ToolkitItem>
+                  ))}
+                </ToolkitContainer>
                 <ButtonContainer>
                   <Button href={project.liveLink} target="_blank">
                     View Live
