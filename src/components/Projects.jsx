@@ -77,14 +77,28 @@ const ProjectInfo = styled.div`
   color: white;
   padding: 1.5rem;
   text-align: center;
-  transform: translateY(100%);
+  transform: translateY(calc(100% - 3.2rem)); /* Show only title by default */
   transition: transform 0.4s ease-in-out;
-  opacity: 0;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  /* Hide everything except title initially */
+  & > *:not(${ProjectTitle}) {
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+  }
+
+  /* Show everything on hover */
+  .info:hover & {
+    transform: translateY(0);
+    
+    & > *:not(${ProjectTitle}) {
+      opacity: 1;
+    }
+  }
 `;
 
 const ProjectDescription = styled.p`
