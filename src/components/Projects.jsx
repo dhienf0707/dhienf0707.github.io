@@ -33,8 +33,6 @@ const ProjectCard = styled.div`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out;
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
 
   &:hover {
     transform: scale(1.07); /* Larger scaling on hover */
@@ -175,9 +173,6 @@ const Projects = () => {
       <ProjectsGrid>
         {projects.map((project) => (
           <ProjectCard key={project.id}>
-            <ProjectTitle style={{ padding: '1rem', margin: 0, backgroundColor: 'white', color: '#333' }}>
-              {project.title}
-            </ProjectTitle>
             <ProjectImageContainer>
               <ProjectImage src={project.image} alt={project.title} />
               <ProjectInfo className="info">
