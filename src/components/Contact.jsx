@@ -171,9 +171,8 @@ const Contact = () => {
                 <LeftSection>
                     <h2>Let's Connect! 💌</h2>
                     <p>
-                        If you ever want to grab a coffee or bubble tea (virtually) or just
-                        want a quick chat, you can find me on social media or send me a
-                        message here!
+                    If you ever want to catch up, have a casual chat, or just say hello,
+                    you can reach out to me on social media or send me a message here!
                     </p>
                     <SocialIcons>
                         <a href="https://www.linkedin.com/in/jerry-nguyen-0a880116a/" target="_blank" rel="noopener noreferrer">
