@@ -4,7 +4,7 @@ import styled from "styled-components";
 // Styled-components
 const ProjectsSection = styled.section`
   padding: 4rem 2rem;
-  background-color: #f8f8f8;
+  background-color: #f1f3f5; // A slightly cooler, more neutral tone
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,16 +35,7 @@ const ProjectCard = styled.div`
   cursor: pointer;
 
   &:hover {
-    transform: scale(1.07); /* Larger scaling on hover */
-  }
-
-  &:hover .info {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  &:hover img {
-    transform: scale(1.3); /* Larger image scaling */
+    transform: scale(1.03);
   }
 `;
 
@@ -59,87 +50,58 @@ const ProjectImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
-  transition: transform 0.5s ease-in-out;
-`;
+  transition: transform 0.3s ease-in-out;
 
-const ProjectTitle = styled.h3`
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
+  ${ProjectCard}:hover & {
+    transform: scale(1.1); /* Zoom effect on hover */
+  }
 `;
 
 const ProjectInfo = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
   padding: 1.5rem;
-  text-align: center;
-  transform: translateY(calc(100% - 3.5rem));
-  transition: all 0.4s ease-in-out;
+`;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  ${ProjectCard}:hover & {
-    transform: translateY(0);
-  }
+const ProjectTitle = styled.h3`
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
 `;
 
 const ProjectDescription = styled.p`
-  font-size: 0.9rem;
+  font-size: 1rem;
   margin-bottom: 1rem;
+  color: #555;
 `;
 
-const ToolkitContainer = styled.div`
+const ProjectToolkit = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 1rem;
-  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
 `;
 
 const ToolkitItem = styled.span`
-  font-size: 0.8rem;
-  color: #fff;
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 4px 12px;
-  border-radius: 15px;
-  backdrop-filter: blur(5px);
-  transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  }
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  gap: 10px;
-`;
-
-const Button = styled.a`
-  padding: 0.5rem 1rem;
-  border: none;
+  font-size: 0.875rem;
+  padding: 0.2rem 0.5rem;
+  background-color: #f0f0f0;
   border-radius: 5px;
-  font-size: 0.9rem;
-  font-weight: bold;
-  text-transform: uppercase;
-  color: white;
-  text-decoration: none;
-  background-color: #007bff; /* Blue button */
-  transition: background-color 0.3s ease;
+  color: #333;
+`;
 
-  &:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-  }
+const ProjectLinks = styled.div`
+    position: absolute;
+    bottom: 0rem;
+    margin-bottom: 1rem;
+    a {
+        margin-right: 1rem;
+        text-decoration: none;
+        color: #007bff;
+        font-weight: bold;
+
+        &:hover {
+        text-decoration: underline;
+        }
+    }
 `;
 
 const Projects = () => {
@@ -147,60 +109,100 @@ const Projects = () => {
         {
             title: "Covid 19 GIS",
             description: "Covid 19 Geographic Information System with Restful API server",
-            toolkit: ["React", "Node.js", "MongoDB", "ExpressJS", "RESTful API"],
+            toolkit: ["React", "Node.js", "MongoDB", "ExpressJS", "RESTful API", "CI/CD", "Vercel", "Redis", "Azure Blobs"],
             image: "/images/covid19.gif",
-            liveLink: "https://covid19-data-visualization.onrender.com/   ",
-            githubLink: "https://github.com/meowlearning/covid19-gis",
-        },
-        {
-            title: "Wireguard Server with IPV4/IPV6 on Oracle",
-            description: "A personal portfolio website showcasing my projects and skills.",
-            toolkit: ["React", "Styled", "Components"],
-            image: "/images/portfolio.jpg",
-            liveLink: "https://yourportfolio.com",
-            githubLink: "https://github.com/yourusername/portfolio",
+            liveDemo: "https://covid19-gis.vercel.app/",
+            github: "https://github.com/meowlearning/covid19-gis",
         },
         {
             title: "Product Mapping",
             description: "Product Mapping - Explore eBay products, track popularity, and analyze availability effortlessly!",
-            toolkit: ["Node.js", "WebSocket", "Express.js", "pugjs", "azure redis", "azure blobs"],
+            toolkit: ["Node.js", "WebSocket", "Express.js", "pugjs", "Azure redis", "Azure Blobs"],
             image: "/images/mashup-api.gif",
-            liveLink: "https://chatapp-demo.com",
-            githubLink: "https://github.com/dhienf0707/Mashup_API",
+            liveDemo: "https://mashup-api.vercel.app/",
+            github: "https://github.com/dhienf0707/Mashup_API",
+        },
+        {
+            title: "Process Overseer",
+            description: "An ssh-alike program for executing and controlling server processes through client terminal by using socket programming with the help of cmake.",
+            toolkit: ["C", "System Programming", "Linux", "Cmake", "Oracle Cloud"],
+            image: "/images/portfolio.jpg",
+            blog: "https://yourportfolio.com",
+            github: "https://github.com/yourusername/portfolio",
+        },
+        {
+            title: "Wireguard Server with IPv4/IPv6 on Oracle",
+            description: "Customized Wireguard VPN Server on Oracle to bypass CGNAT problem and provide full access to IPv6",
+            toolkit: ["VLAN", "Routing", "Subnetting", "NDP", "Oracle Cloud"],
+            image: "/images/portfolio.jpg",
+            blog: "https://yourportfolio.com",
+            github: "https://github.com/yourusername/portfolio",
+        },
+        {
+            title: "Link Aggregation",
+            description: "Customized link aggregation and load balancing between 5G and Fibre network using a custom OpenWrt firmware to enhance network performance in \
+            rural areas",
+            toolkit: ["Link Aggregation", "Load Balancing", "OpenWRT", "Raspberry Pi", "Oracle Cloud"],
+            image: "/images/portfolio.jpg",
+            blog: "https://yourportfolio.com",
+            github: "https://github.com/yourusername/portfolio",
+        },
+        {
+            title: "ThinkPad T400 Modification",
+            description: "Hardware modificiation to my Thinkpad T400 to enable Quad-core support, Wifi 6, NVMe Storage and 5G connection",
+            toolkit: ["Soldering", "EEPROM Programming", "Bios Mod", "Coreboot"],
+            image: "/images/portfolio.jpg",
+            blog: "https://yourportfolio.com",
+            github: "https://github.com/yourusername/portfolio",
+        },
+        {
+            title: "AMD Radeon™ RX 7900 XTX Overclocking",
+            description: "Push my GPU to the limit with extreme hardware overclocking using liquid metal, shunt mod and watercooling",
+            toolkit: ["Watercooling", "EEPROM Programming", "Bios Mod", "Soldering", "Shunt mod"],
+            image: "/images/portfolio.jpg",
+            blog: "https://yourportfolio.com",
+            github: "https://github.com/yourusername/portfolio",
         },
     ];
 
-  return (
-    <ProjectsSection>
-      <SectionTitle>Projects</SectionTitle>
-      <ProjectsGrid>
-        {projects.map((project) => (
-          <ProjectCard key={project.id}>
-            <ProjectImageContainer>
-              <ProjectImage src={project.image} alt={project.title} />
-              <ProjectInfo className="info">
-                <ProjectTitle>{project.title}</ProjectTitle>
-                <ProjectDescription>{project.description}</ProjectDescription>
-                <ToolkitContainer>
-                  {project.toolkit.map((tool, index) => (
-                    <ToolkitItem key={index}>{tool}</ToolkitItem>
-                  ))}
-                </ToolkitContainer>
-                <ButtonContainer>
-                  <Button href={project.liveLink} target="_blank">
-                    View Live
-                  </Button>
-                  <Button href={project.githubLink} target="_blank">
-                    GitHub
-                  </Button>
-                </ButtonContainer>
-              </ProjectInfo>
-            </ProjectImageContainer>
-          </ProjectCard>
-        ))}
-      </ProjectsGrid>
-    </ProjectsSection>
-  );
+    return (
+        <ProjectsSection id="projects">
+            <SectionTitle>Projects</SectionTitle>
+            <ProjectsGrid>
+                {projects.map((project, index) => (
+                    <ProjectCard key={index}>
+                        <ProjectImageContainer>
+                            <ProjectImage src={project.image} alt={project.title} />
+                        </ProjectImageContainer>
+                        <ProjectInfo>
+                            <ProjectTitle>{project.title}</ProjectTitle>
+                            <ProjectDescription>{project.description}</ProjectDescription>
+                            <ProjectToolkit>
+                                {project.toolkit.map((tool, i) => (
+                                    <ToolkitItem key={i}>{tool}</ToolkitItem>
+                                ))}
+                            </ProjectToolkit>
+                            <ProjectLinks>
+                                {project.liveDemo ? (
+                                    <a href={project.liveDemo} target="_blank" rel="noopener noreferrer">
+                                        View Live
+                                    </a>
+                                ) : (
+                                    <a href={project.blog} target="_blank" rel="noopener noreferrer">
+                                        Blog
+                                    </a>
+                                )}
+
+                                <a href={project.github} target="_blank" rel="noopener noreferrer">
+                                    GitHub
+                                </a>
+                            </ProjectLinks>
+                        </ProjectInfo>
+                    </ProjectCard>
+                ))}
+            </ProjectsGrid>
+        </ProjectsSection>
+    );
 };
 
 export default Projects;
