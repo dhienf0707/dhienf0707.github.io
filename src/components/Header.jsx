@@ -17,19 +17,19 @@ const Header = () => {
     <Nav>
       <Logo>Jerry</Logo>
       <DesktopMenu>
-        <NavItem to="hero" smooth={true} duration={500}>
+        <NavItem to="hero" smooth={true} duration={1500}>
           Home
         </NavItem>
-        <NavItem to="projects" smooth={true} duration={500}>
+        <NavItem to="projects" smooth={true} duration={1500}>
           Projects
         </NavItem>
-        <NavItem to="about" smooth={true} duration={500}>
+        <NavItem to="about" smooth={true} duration={1500}>
           About
         </NavItem>
-        <NavItem to="toolkit" smooth={true} duration={500}>
+        <NavItem to="toolkit" smooth={true} duration={1500}>
           Toolkit
         </NavItem>
-        <NavItem to="contact" smooth={true} duration={500}>
+        <NavItem to="contact" smooth={true} duration={1500}>
           Contact
         </NavItem>
       </DesktopMenu>
@@ -45,7 +45,7 @@ const Header = () => {
           <NavItem
             to="hero"
             smooth={true}
-            duration={500}
+            duration={1500}
             onClick={closeMenu}
           >
             Home
@@ -53,7 +53,7 @@ const Header = () => {
           <NavItem
             to="projects"
             smooth={true}
-            duration={500}
+            duration={1500}
             onClick={closeMenu}
           >
             Projects
@@ -61,7 +61,7 @@ const Header = () => {
           <NavItem
             to="about"
             smooth={true}
-            duration={500}
+            duration={1500}
             onClick={closeMenu}
           >
             About
@@ -69,7 +69,7 @@ const Header = () => {
           <NavItem
             to="toolkit"
             smooth={true}
-            duration={500}
+            duration={1500}
             onClick={closeMenu}
           >
             Toolkit
@@ -77,7 +77,7 @@ const Header = () => {
           <NavItem
             to="contact"
             smooth={true}
-            duration={500}
+            duration={1500}
             onClick={closeMenu}
           >
             Contact
