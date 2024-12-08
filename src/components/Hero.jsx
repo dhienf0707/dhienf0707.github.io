@@ -21,7 +21,9 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 1 }}
           >
-            Full-Stack Developer crafting scalable and elegant solutions.
+            Full-Stack Developer crafting scalable and elegant solutions,
+            with expertise spanning diverse fields such as machine learning,
+            circuitry, networking, hardware and embedded system.
           </SubText>
         </Description>
 

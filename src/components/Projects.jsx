@@ -117,7 +117,7 @@ const Projects = () => {
         {
             title: "Product Mapping",
             description: "Product Mapping - Explore eBay products, track popularity, and analyze availability effortlessly!",
-            toolkit: ["Node.js", "WebSocket", "Express.js", "pugjs", "Azure redis", "Azure Blobs"],
+            toolkit: ["Node.js", "WebSocket", "Express.js", "pugjs", "Vercel", "Azure redis", "Azure Blobs"],
             image: "/images/mashup-api.gif",
             liveDemo: "https://mashup-api.vercel.app/",
             github: "https://github.com/dhienf0707/Mashup_API",
@@ -159,6 +159,14 @@ const Projects = () => {
             title: "AMD Radeon™ RX 7900 XTX Overclocking",
             description: "Push my GPU to the limit with extreme hardware overclocking using liquid metal, shunt mod and watercooling",
             toolkit: ["Watercooling", "EEPROM Programming", "Bios Mod", "Soldering", "Shunt mod"],
+            image: "/images/portfolio.jpg",
+            blog: "https://yourportfolio.com",
+            github: "https://github.com/yourusername/portfolio",
+        },
+        {
+            title: "Advanced Object Recognition",
+            description: "Propose a new method for training an object classification machine learning model that is both cost-effective and highly accurate.",
+            toolkit: ["TensorFlow", "DCNN", "Image Processing", "Data Analysis"],
             image: "/images/portfolio.jpg",
             blog: "https://yourportfolio.com",
             github: "https://github.com/yourusername/portfolio",
