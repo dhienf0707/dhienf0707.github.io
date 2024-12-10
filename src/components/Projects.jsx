@@ -140,8 +140,7 @@ const Projects = () => {
         },
         {
             title: "Link Aggregation",
-            description: "Customized link aggregation and load balancing between 5G and Fibre network using a custom OpenWrt firmware to enhance network performance in \
-            rural areas",
+            description: "Customized link aggregation and load balancing between 5G and Fibre network using a custom OpenWrt firmware to enhance network performance in rural areas",
             toolkit: ["Link Aggregation", "Load Balancing", "OpenWRT", "Raspberry Pi", "Oracle Cloud"],
             image: "/images/portfolio.jpg",
             blog: "https://yourportfolio.com",

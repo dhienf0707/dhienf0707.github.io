@@ -30,7 +30,7 @@ const Toolkit = () => {
   ];
 
   return (
-    <Section id="toolkit">"
+    <Section id="toolkit">
       <Container>
         <Heading
           initial={{ opacity: 0, y: -50 }}

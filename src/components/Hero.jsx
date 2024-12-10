@@ -25,6 +25,16 @@ const Hero = () => {
             with expertise spanning diverse fields such as machine learning,
             circuitry, networking, hardware and embedded system.
           </SubText>
+          <CVButton
+            href="/assets/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1, duration: 1 }}
+          >
+            Download CV
+          </CVButton>
         </Description>
 
         {/* Right Section: Profile Picture */}
@@ -101,6 +111,26 @@ const SubText = styled(motion.p)`
 
   @media (max-width: 768px) {
     font-size: 1rem;
+  }
+`;
+
+const CVButton = styled(motion.a)`
+  display: inline-block;
+  margin-top: 2rem;
+  padding: 0.8rem 1.5rem;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+
+  @media (max-width: 768px) {
+    margin-top: 1.5rem;
   }
 `;
 
