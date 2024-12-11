@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link as ScrollLink } from "react-scroll";
 import { Link as RouterLink, useLocation } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faIgloo } from '@fortawesome/free-solid-svg-icons';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +21,9 @@ const Header = () => {
   return (
     <Nav>
       <Logo>
-        <RouterLink style={{ textDecoration: 'none' }} to="/">Jerry</RouterLink>
+        <RouterLink style={{ textDecoration: 'none' }} to="/">
+          <FontAwesomeIcon icon={faIgloo} /> Home
+        </RouterLink>
       </Logo>
       <DesktopMenu>
         {isHomePage ? (

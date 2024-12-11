@@ -6,6 +6,7 @@ import { Render } from '@9gustin/react-notion-render'
 import '@9gustin/react-notion-render/dist/index.css'
 import { Highlight, themes } from "prism-react-renderer"
 import { withContentValidation } from "@9gustin/react-notion-render";
+import { Skeleton } from "../Skeleton";
 
 const CodeBlock = ({ plainText, language }) => {
   const [copied, setCopied] = useState(false);
@@ -94,55 +95,7 @@ const CopyButton = styled.button`
   }
 `;
 
-const BlogPost = () => {
-  const { slug } = useParams();
-  const [post, setPost] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const data = await getBlogPost(slug);
-        setPost(data);
-        setLoading(false);
-      } catch (err) {
-        setError("Failed to fetch blog post");
-        setLoading(false);
-      }
-    };
-
-    fetchPost();
-  }, [slug]);
-
-  if (loading) return <LoadingMessage>Loading post...</LoadingMessage>;
-  if (error) return <ErrorMessage>{error}</ErrorMessage>;
-  if (!post) return <ErrorMessage>Post not found</ErrorMessage>;
-
-  return (
-    <PostContainer>
-      <PostHeader>
-        <Title>{post.page.properties.Name.title[0]?.plain_text}</Title>
-        {
-          post.page.properties.Date?.date?.start
-            ?
-            <DateTime>
-              {new Date(post.page.properties.Date?.date?.start).toLocaleDateString()}
-            </DateTime>
-            : ''
-        }
-      </PostHeader>
-      <Content>
-        <Render
-          blocks={post.blocks}
-          blockComponentsMapper={{
-            code: withContentValidation(CodeBlock)
-          }}
-        />
-      </Content>
-    </PostContainer>
-  );
-};
 
 const PostContainer = styled.article`
   max-width: 800px;
@@ -229,12 +182,14 @@ const Content = styled.div`
   }
 
   /* Inline code styling */
-  p > code {
+  code.rnr-inline-code {
     background-color: #f3f4f6;
     padding: 0.2rem 0.4rem;
     border-radius: 4px;
     font-size: 0.9em;
     font-family: 'source-code-pro', Menlo, Monaco, Consolas, 'Courier New', monospace;
+    color: #c7254e;
+    font-weight: bold;
   }
 
   /* Comments styling */
@@ -253,14 +208,6 @@ const Content = styled.div`
   }
 `;
 
-
-const LoadingMessage = styled.div`
-  text-align: center;
-  padding: 2rem;
-  font-size: 1.2rem;
-  color: #666;
-`;
-
 const ErrorMessage = styled.div`
   text-align: center;
   padding: 2rem;
@@ -268,4 +215,82 @@ const ErrorMessage = styled.div`
   font-size: 1.2rem;
 `;
 
+const SkeletonHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+`;
+
+const SkeletonContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const BlogPost = () => {
+  const { slug } = useParams();
+  const [post, setPost] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const data = await getBlogPost(slug);
+        setPost(data);
+        setLoading(false);
+      } catch (err) {
+        setError("Failed to fetch blog post");
+        setLoading(false);
+      }
+    };
+
+    fetchPost();
+  }, [slug]);
+
+  if (error) return <ErrorMessage>{error}</ErrorMessage>;
+
+  return (
+    <PostContainer>
+      {loading ? (
+        <>
+          <SkeletonHeader>
+            <Skeleton height="48px" width="80%" />
+            <Skeleton height="24px" width="40%" />
+          </SkeletonHeader>
+          <SkeletonContent>
+            <Skeleton height="24px" width="100%" />
+            <Skeleton height="24px" width="100%" />
+            <Skeleton height="24px" width="80%" />
+            <Skeleton height="200px" width="100%" />
+            <Skeleton height="24px" width="100%" />
+            <Skeleton height="24px" width="90%" />
+            <Skeleton height="24px" width="95%" />
+          </SkeletonContent>
+        </>
+      ) : (
+        <>
+          <PostHeader>
+            <Title>{post.page.properties.Name.title[0]?.plain_text}</Title>
+            {post.page.properties.Date?.date?.start && (
+              <DateTime>
+                {new Date(post.page.properties.Date.date.start).toLocaleDateString()}
+              </DateTime>
+            )}
+          </PostHeader>
+          <Content>
+            <Render
+              blocks={post.blocks}
+              blockComponentsMapper={{
+                code: withContentValidation(CodeBlock)
+              }}
+            />
+          </Content>
+        </>
+      )}
+    </PostContainer>
+  );
+};
 export default BlogPost; 
