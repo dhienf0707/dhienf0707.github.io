@@ -109,7 +109,11 @@ const Nav = styled.nav`
 
 const Logo = styled.h1`
   font-size: 1.5rem;
-  color: #333;
+
+  a {
+    color: #000;
+    text-decoration: none;
+  }
 `;
 
 const DesktopMenu = styled.div`
