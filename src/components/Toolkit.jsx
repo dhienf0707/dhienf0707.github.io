@@ -1,7 +1,132 @@
-// components/Toolkit.jsx
 import React from "react";
-import styled from "styled-components";
-import { motion } from "framer-motion";
+import styled, { keyframes } from "styled-components";
+
+const Section = styled.section`
+  padding: 8rem 5rem;
+  background: #f8f9fa;
+
+  @media (max-width: 768px) {
+    padding: 6rem 2rem;
+  }
+`;
+
+const Container = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+`;
+
+const Heading = styled.h2`
+  font-size: 2rem;
+  margin-bottom: 4rem;
+  text-align: center;
+  color: #333;
+`;
+
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+
+  @media (max-width: 768px) {
+    gap: 1.5rem;
+  }
+`;
+
+const fadeInUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const ToolCard = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+  animation: ${fadeInUp} 0.6s ease-out forwards;
+  animation-delay: ${props => props.index * 0.1}s;
+  opacity: 0;
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(100%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  &:hover::before {
+    transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    &:hover {
+      transform: none;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    &::before {
+      display: none;
+    }
+  }
+`;
+
+const Icon = styled.img`
+  width: 80px;
+  height: 80px;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease-in-out;
+  z-index: 1;
+
+  ${ToolCard}:hover & {
+    transform: translateY(-20px);
+  }
+
+  @media (max-width: 768px) {
+    ${ToolCard}:hover & {
+      transform: none;
+    }
+  }
+`;
+
+const ToolName = styled.p`
+  font-size: 1rem;
+  font-weight: 600;
+  color: #555;
+  transition: all 0.3s ease-in-out;
+  z-index: 1;
+
+  ${ToolCard}:hover & {
+    transform: translateY(-20px);
+  }
+
+  @media (max-width: 768px) {
+    ${ToolCard}:hover & {
+      transform: none;
+    }
+  }
+`;
 
 const Toolkit = () => {
   const tools = [
@@ -26,29 +151,16 @@ const Toolkit = () => {
     { name: "MySQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
     { name: "Git", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
     { name: "VMware", icon: "https://upload.wikimedia.org/wikipedia/commons/9/9a/Vmware.svg" },
-    { name: "Proxmox", icon: "https://raw.githubusercontent.com/proxmox/pve-docs/refs/heads/master/images/proxmox-logo.svg" },
+    { name: "Proxmox", icon: "https://www.svgrepo.com/download/342139/proxmox.svg" },
   ];
 
   return (
     <Section id="toolkit">
       <Container>
-        <Heading
-          initial={{ opacity: 0, y: -50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          Toolkit 💻
-        </Heading>
+        <Heading>Toolkit 💻</Heading>
         <Grid>
           {tools.map((tool, index) => (
-            <ToolCard
-              key={index}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-            >
+            <ToolCard key={index} index={index}>
               <Icon src={tool.icon} alt={`${tool.name} icon`} />
               <ToolName>{tool.name}</ToolName>
             </ToolCard>
@@ -59,64 +171,5 @@ const Toolkit = () => {
   );
 };
 
-const Section = styled.section`
-  padding: 8rem 5rem;
-  background: #f8f9fa;
-
-  @media (max-width: 768px) {
-    padding: 6rem 2rem;
-  }
-`;
-
-const Container = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  text-align: center;
-`;
-
-const Heading = styled(motion.h2)`
-  font-size: 2rem;
-  margin-bottom: 4rem;
-  color: #333;
-`;
-
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 2rem;
-
-  @media (max-width: 768px) {
-    gap: 1.5rem;
-  }
-`;
-
-const ToolCard = styled(motion.div)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease-in-out;
-
-  &:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    transform: translateY(-5px);
-  }
-`;
-
-const Icon = styled.img`
-  width: 160px;
-  height: 64px;
-  margin-bottom: 1rem;
-`;
-
-const ToolName = styled.p`
-  font-size: 1rem;
-  font-weight: 600;
-  color: #555;
-`;
-
 export default Toolkit;
+
