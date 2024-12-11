@@ -1,10 +1,13 @@
 // components/Header.jsx
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Link } from "react-scroll";
+import { Link as ScrollLink } from "react-scroll";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
 
   // Disable scrolling on the background when the menu is open
   useEffect(() => {
@@ -15,23 +18,36 @@ const Header = () => {
 
   return (
     <Nav>
-      <Logo>Jerry</Logo>
+      <Logo>
+        <RouterLink style={{ textDecoration: 'none' }} to="/">Jerry</RouterLink>
+      </Logo>
       <DesktopMenu>
-        <NavItem to="hero" smooth={true} duration={1500}>
-          Home
-        </NavItem>
-        <NavItem to="projects" smooth={true} duration={1500}>
-          Projects
-        </NavItem>
-        <NavItem to="about" smooth={true} duration={1500}>
-          About
-        </NavItem>
-        <NavItem to="toolkit" smooth={true} duration={1500}>
-          Toolkit
-        </NavItem>
-        <NavItem to="contact" smooth={true} duration={1500}>
-          Contact
-        </NavItem>
+        {isHomePage ? (
+          <>
+            <NavItem as={ScrollLink} to="hero" smooth={true} duration={1500}>
+              Hero
+            </NavItem>
+            <NavItem as={ScrollLink} to="projects" smooth={true} duration={1500}>
+              Projects
+            </NavItem>
+            <NavItem as={RouterLink} to="/blog">
+              Blog
+            </NavItem>
+            <NavItem as={ScrollLink} to="about" smooth={true} duration={1500}>
+              About
+            </NavItem>
+            <NavItem as={ScrollLink} to="toolkit" smooth={true} duration={1500}>
+              Toolkit
+            </NavItem>
+            <NavItem as={ScrollLink} to="contact" smooth={true} duration={1500}>
+              Contact
+            </NavItem>
+          </>
+        ) : (
+          <NavItem as={RouterLink} to="/">
+            Home
+          </NavItem>
+        )}
       </DesktopMenu>
       <Hamburger onClick={() => setIsOpen(!isOpen)}>
         <span className={isOpen ? "open" : ""} />
@@ -42,46 +58,32 @@ const Header = () => {
       <MobileMenu isOpen={isOpen}>
         <CloseButton onClick={closeMenu}>&times;</CloseButton>
         <MobileMenuContent>
-          <NavItem
-            to="hero"
-            smooth={true}
-            duration={1500}
-            onClick={closeMenu}
-          >
-            Home
-          </NavItem>
-          <NavItem
-            to="projects"
-            smooth={true}
-            duration={1500}
-            onClick={closeMenu}
-          >
-            Projects
-          </NavItem>
-          <NavItem
-            to="about"
-            smooth={true}
-            duration={1500}
-            onClick={closeMenu}
-          >
-            About
-          </NavItem>
-          <NavItem
-            to="toolkit"
-            smooth={true}
-            duration={1500}
-            onClick={closeMenu}
-          >
-            Toolkit
-          </NavItem>
-          <NavItem
-            to="contact"
-            smooth={true}
-            duration={1500}
-            onClick={closeMenu}
-          >
-            Contact
-          </NavItem>
+          {isHomePage ? (
+            <>
+              <NavItem as={ScrollLink} to="hero" smooth={true} duration={1500} onClick={closeMenu}>
+                Hero
+              </NavItem>
+              <NavItem as={ScrollLink} to="projects" smooth={true} duration={1500} onClick={closeMenu}>
+                Projects
+              </NavItem>
+              <NavItem as={RouterLink} to="/blog" onClick={closeMenu}>
+                Blog
+              </NavItem>
+              <NavItem as={ScrollLink} to="about" smooth={true} duration={1500} onClick={closeMenu}>
+                About
+              </NavItem>
+              <NavItem as={ScrollLink} to="toolkit" smooth={true} duration={1500} onClick={closeMenu}>
+                Toolkit
+              </NavItem>
+              <NavItem as={ScrollLink} to="contact" smooth={true} duration={1500} onClick={closeMenu}>
+                Contact
+              </NavItem>
+            </>
+          ) : (
+            <NavItem as={RouterLink} to="/" onClick={closeMenu}>
+              Home
+            </NavItem>
+          )}
         </MobileMenuContent>
       </MobileMenu>
     </Nav>
@@ -191,12 +193,13 @@ const MobileMenuContent = styled.div`
   gap: 2rem;
 `;
 
-const NavItem = styled(Link)`
+const NavItem = styled(ScrollLink)`
   font-size: 1rem;
   font-weight: bold;
   color: #333;
   cursor: pointer;
   transition: color 0.3s ease;
+  text-decoration: none;
 
   &:hover {
     color: #007bff;

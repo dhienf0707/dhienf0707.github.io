@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://dhienf0707.github.io",
   "dependencies": {
+    "@9gustin/react-notion-render": "^3.11.4",
     "@emailjs/browser": "^4.4.1",
     "@fortawesome/fontawesome-svg-core": "^6.7.1",
     "@fortawesome/free-brands-svg-icons": "^6.7.1",
@@ -13,8 +14,10 @@
     "@testing-library/user-event": "^13.5.0",
     "framer-motion": "^11.12.0",
     "gh-pages": "^6.2.0",
+    "prism-react-renderer": "^2.4.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-router-dom": "^7.0.2",
     "react-scripts": "5.0.1",
     "react-scroll": "^1.9.0",
     "styled-components": "^6.1.13",
