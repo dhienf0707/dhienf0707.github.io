@@ -107,6 +107,14 @@ const ProjectLinks = styled.div`
 const Projects = () => {
     const projects = [
         {
+            title: "My Portfolio",
+            description: "The thing that you are looking at right now 😁",
+            toolkit: ["ReactJS", "NextJS", "Vercel", "CI/CD", "Notion API", "Redis", "Azure Blobs"],
+            image: "/images/portfolio.gif",
+            liveDemo: "https://dhienf0707.github.io/",
+            github: "https://github.com/dhienf0707/dhienf0707.github.io",
+        },
+        {
             title: "Covid 19 GIS",
             description: "Covid 19 Geographic Information System with Restful API server",
             toolkit: ["React", "Node.js", "MongoDB", "ExpressJS", "RESTful API", "CI/CD", "Vercel", "Redis", "Azure Blobs"],
@@ -123,20 +131,18 @@ const Projects = () => {
             github: "https://github.com/dhienf0707/Mashup_API",
         },
         {
-            title: "Process Overseer",
-            description: "An ssh-alike program for executing and controlling server processes through client terminal by using socket programming with the help of cmake.",
-            toolkit: ["C", "System Programming", "Linux", "Cmake", "Oracle Cloud"],
-            image: "/images/portfolio.jpg",
-            blog: "https://yourportfolio.com",
-            github: "https://github.com/yourusername/portfolio",
-        },
-        {
             title: "Wireguard Server with IPv4/IPv6 on Oracle",
             description: "Customized Wireguard VPN Server on Oracle to bypass CGNAT problem and provide full access to IPv6",
             toolkit: ["VLAN", "Routing", "Subnetting", "NDP", "Oracle Cloud"],
+            image: "/images/wireguard-server.webp",
+            blog: "/blog/wireguard-server",
+        },
+        {
+            title: "Process Overseer",
+            description: "An ssh-alike program for executing and controlling server processes through client terminal by using socket programming with the help of cmake.",
+            toolkit: ["C", "System Programming", "Linux", "Cmake", "Socket Programming"],
             image: "/images/portfolio.jpg",
-            blog: "https://yourportfolio.com",
-            github: "https://github.com/yourusername/portfolio",
+            github: "https://github.com/dhienf0707/process_overseer",
         },
         {
             title: "Link Aggregation",
@@ -195,14 +201,17 @@ const Projects = () => {
                                         View Live
                                     </a>
                                 ) : (
-                                    <a href={project.blog} target="_blank" rel="noopener noreferrer">
-                                        Blog
-                                    </a>
+                                    project.blog ? (
+                                        <a href={project.blog} target="_blank" rel="noopener noreferrer">
+                                            Blog
+                                        </a>
+                                    ) : null
                                 )}
-
-                                <a href={project.github} target="_blank" rel="noopener noreferrer">
-                                    GitHub
-                                </a>
+                                {project.github ? (
+                                    <a href={project.github} target="_blank" rel="noopener noreferrer">
+                                        GitHub
+                                    </a>
+                                ): null}
                             </ProjectLinks>
                         </ProjectInfo>
                     </ProjectCard>

@@ -4,6 +4,53 @@ import { Link } from "react-router-dom";
 import { getBlogPosts } from "../../services/api";
 import { Skeleton } from "../Skeleton";
 
+const PostCard = styled.div`
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  
+  &:hover {
+    transform: translateY(-5px);
+  }
+`;
+
+const PostImage = styled.img`
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+`;
+
+const PostInfo = styled.div`
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  position: relative;
+`;
+
+const PostTitle = styled.h2`
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+`;
+
+const ReadMoreLink = styled(Link)`
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: auto;
+  display: inline-block;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 const BlogSection = styled.section`
 padding: 4rem 2rem;
 background-color: #f1f3f5;
@@ -27,30 +74,6 @@ width: 100%;
 max-width: 1200px;
 `;
 
-const PostCard = styled.div`
-background-color: white;
-border-radius: 10px;
-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-transition: transform 0.3s ease-in-out;
-overflow: hidden;
-
-&:hover {
-  transform: translateY(-5px);
-}
-`;
-
-const PostInfo = styled.div`
-padding: 1.5rem;
-`;
-
-const PostTitle = styled.h3`
-font-size: 1.5rem;
-margin-bottom: 0.5rem;
-color: #333;
-word-break: break-word;
-overflow-wrap: anywhere;
-`;
-
 const PostDate = styled.p`
 font-size: 0.9rem;
 color: #666;
@@ -61,16 +84,6 @@ const PostDescription = styled.p`
 font-size: 1rem;
 color: #555;
 margin-bottom: 1.5rem;
-`;
-
-const ReadMoreLink = styled(Link)`
-color: #007bff;
-text-decoration: none;
-font-weight: bold;
-
-&:hover {
-  text-decoration: underline;
-}
 `;
 
 const ErrorMessage = styled.div`
@@ -95,12 +108,6 @@ const PostImageContainer = styled.div`
   width: 100%;
   aspect-ratio: 16 / 9; /* Ensures consistent aspect ratio */
   overflow: hidden;
-`;
-
-const PostImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 `;
 
 const BlogList = () => {
