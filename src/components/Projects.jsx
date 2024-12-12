@@ -111,7 +111,7 @@ const Projects = () => {
             description: "The thing that you are looking at right now 😁",
             toolkit: ["ReactJS", "NextJS", "Vercel", "CI/CD", "Notion API", "Redis", "Azure Blobs"],
             image: "/images/portfolio.gif",
-            liveDemo: "https://dhienf0707.github.io/",
+            liveDemo: "https://jerrycat-portfolio.vercel.app/",
             github: "https://github.com/dhienf0707/dhienf0707.github.io",
         },
         {
