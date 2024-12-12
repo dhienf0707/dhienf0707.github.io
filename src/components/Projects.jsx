@@ -108,7 +108,7 @@ const Projects = () => {
     const projects = [
         {
             title: "My Portfolio",
-            description: "The thing that you are looking at right now 😁",
+            description: "The thing that you are looking at right now 😁. This is a portfolio website that I built using ReactJS for client side and NextJS for server side. It is hosted on Vercel and uses Notion API to fetch my blog posts and projects data.",
             toolkit: ["ReactJS", "NextJS", "Vercel", "CI/CD", "Notion API", "Redis", "Azure Blobs"],
             image: "/images/portfolio.gif",
             liveDemo: "https://jerrycat-portfolio.vercel.app/",
@@ -136,6 +136,13 @@ const Projects = () => {
             toolkit: ["VLAN", "Routing", "Subnetting", "NDP", "Oracle Cloud"],
             image: "/images/wireguard-server.webp",
             blog: "/blog/wireguard-server",
+        },
+        {
+            title: "Password Store",
+            description: "Password Manager using git, gpg and Yubikey to store and encrypt passwords",
+            toolkit: ["git", "gpg", "bash", "zsh"],
+            image: "/images/password-store.gif",
+            blog: "/blog/password-store",
         },
         {
             title: "Process Overseer",
