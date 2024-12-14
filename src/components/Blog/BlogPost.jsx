@@ -2,100 +2,21 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getBlogPost } from "../../services/api";
-import { Render } from '@9gustin/react-notion-render'
-import '@9gustin/react-notion-render/dist/index.css'
-import { Highlight, themes } from "prism-react-renderer"
-import { withContentValidation } from "@9gustin/react-notion-render";
 import { Skeleton } from "../Skeleton";
 
-const CodeBlock = ({ plainText, language }) => {
-  const [copied, setCopied] = useState(false);
+import { NotionRenderer } from 'react-notion-x'
+import { Code } from 'react-notion-x/build/third-party/code'
+import { Collection } from 'react-notion-x/build/third-party/collection'
+// core styles shared by all of react-notion-x (required)
+import 'react-notion-x/src/styles.css'
 
-  const handleCopy = async () => {
-    try {
-      if (navigator.clipboard && window.isSecureContext) {
-        // For modern browsers
-        await navigator.clipboard.writeText(plainText);
-      } else {
-        // Fallback for iOS
-        const textArea = document.createElement("textarea");
-        textArea.value = plainText;
-        // Make the textarea out of viewport
-        textArea.style.position = "fixed";
-        textArea.style.left = "-999999px";
-        textArea.style.top = "-999999px";
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-        try {
-          document.execCommand('copy');
-        } catch (error) {
-          console.error('Copy failed:', error);
-        }
-        textArea.remove();
-      }
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (error) {
-      console.error('Copy failed:', error);
-    }
-  };
-
-  return (
-    <CodeBlockWrapper>
-      <CopyButton onClick={handleCopy}>
-        {copied ? "Copied!" : "Copy"}
-      </CopyButton>
-      <Highlight theme={themes.github} code={plainText} language={language}>
-        {({ className, style, tokens, getLineProps, getTokenProps }) => (
-          <Pre className={className} style={style}>
-            {tokens.map((line, i) => (
-              <Line key={i} {...getLineProps({ line, key: i })}>
-                <LineNo>{i + 1}</LineNo>
-                <LineContent>
-                  {line.map((token, key) => (
-                    <span key={key} {...getTokenProps({ token, key })} />
-                  ))}
-                </LineContent>
-              </Line>
-            ))}
-          </Pre>
-        )}
-      </Highlight>
-    </CodeBlockWrapper>
-  );
-};
-
-const CodeBlockWrapper = styled.div`
-  position: relative;
-`;
-
-const CopyButton = styled.button`
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  padding: 6px 12px;
-  font-size: 12px;
-  font-weight: 500;
-  border-radius: 4px;
-  border: 1px solid #d1d5db;
-  background-color: white;
-  color: #374151;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  z-index: 1;
-
-  &:hover {
-    background-color: #f3f4f6;
-    border-color: #9ca3af;
-  }
-
-  &:active {
-    background-color: #e5e7eb;
-  }
-`;
-
-
+// used for code syntax highlighting (optional)
+import 'prismjs/themes/prism-tomorrow.css'
+import 'prismjs/components/prism-bash.js'
+import 'prismjs/components/prism-docker.js'
+import 'prismjs/components/prism-yaml.js'
+import 'prismjs/components/prism-powershell.js'
+import 'prismjs/components/prism-toml.js'
 
 const PostContainer = styled.article`
   max-width: 800px;
@@ -117,95 +38,6 @@ const Title = styled.h1`
 const DateTime = styled.p`
   font-size: 1rem;
   color: #666;
-`;
-
-const Pre = styled.pre`
-  text-align: left;
-  margin: 1em 0;
-  padding: 0.5em;
-  overflow: auto;
-  border-radius: 6px;
-  background-color: #f6f8fa !important;
-`;
-
-const Line = styled.div`
-  display: table-row;
-`;
-
-const LineNo = styled.span`
-  display: table-cell;
-  text-align: right;
-  padding-right: 1em;
-  user-select: none;
-  opacity: 0.5;
-`;
-
-const LineContent = styled.span`
-  display: table-cell;
-`;
-
-const Content = styled.div`
-  line-height: 1.8;
-  color: #444;
-
-  h1, h2, h3 {
-    margin: 2rem 0 1rem;
-    color: #333;
-  }
-
-  p {
-    margin-bottom: 1.5rem;
-  }
-
-  ul, ol {
-    margin-bottom: 1.5rem;
-    padding-left: 2rem;
-  }
-
-  li {
-    margin-bottom: 0.5rem;
-  }
-
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-
-  a {
-    text-decoration: none;
-    color: #007bff;
-    transition: text-decoration 0.3s ease;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  /* Inline code styling */
-  code.rnr-inline-code {
-    background-color: #f3f4f6;
-    padding: 0.2rem 0.4rem;
-    border-radius: 4px;
-    font-size: 0.9em;
-    font-family: 'source-code-pro', Menlo, Monaco, Consolas, 'Courier New', monospace;
-    color: #c7254e;
-    font-weight: bold;
-  }
-
-  /* Comments styling */
-  .comment {
-    color: #6a737d;
-  }
-
-  /* Function and keyword styling */
-  .function, .keyword {
-    color: #0550ae;
-  }
-
-  /* String styling */
-  .string {
-    color: #24292e;
-  }
 `;
 
 const ErrorMessage = styled.div`
@@ -280,14 +112,13 @@ const BlogPost = () => {
               </DateTime>
             )}
           </PostHeader>
-          <Content>
-            <Render
-              blocks={post.blocks}
-              blockComponentsMapper={{
-                code: withContentValidation(CodeBlock)
+          <NotionRenderer
+              recordMap={post.recordMap}
+              components={{
+                Code,
+                Collection
               }}
             />
-          </Content>
         </>
       )}
     </PostContainer>
