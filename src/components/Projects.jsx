@@ -108,10 +108,10 @@ const Projects = () => {
     const projects = [
         {
             title: "My Portfolio",
-            description: "The thing that you are looking at right now 😁. This is a portfolio website that I built using ReactJS for client side and NextJS for server side. It is hosted on Vercel and uses Notion API to fetch my blog posts and projects data.",
+            description: "The thing that you are looking at right now 😁. This is a portfolio website that I built using ReactJS for client side and NextJS for server side. It is hosted on Vercel and uses Notion API to fetch my Blog posts and projects data.",
             toolkit: ["ReactJS", "NextJS", "Vercel", "CI/CD", "Notion API", "Redis", "Azure Blobs"],
             image: "/images/portfolio.gif",
-            liveDemo: "https://jerrycat-portfolio.vercel.app/",
+            "View Live": "https://jerrycat-portfolio.vercel.app/",
             github: "https://github.com/dhienf0707/dhienf0707.github.io",
         },
         {
@@ -119,7 +119,7 @@ const Projects = () => {
             description: "Covid 19 Geographic Information System with Restful API server",
             toolkit: ["React", "Node.js", "MongoDB", "ExpressJS", "RESTful API", "CI/CD", "Vercel", "Redis", "Azure Blobs"],
             image: "/images/covid19.gif",
-            liveDemo: "https://covid19-gis.vercel.app/",
+            "View Live": "https://covid19-gis.vercel.app/",
             github: "https://github.com/meowlearning/covid19-gis",
         },
         {
@@ -127,7 +127,7 @@ const Projects = () => {
             description: "Product Mapping - Explore eBay products, track popularity, and analyze availability effortlessly!",
             toolkit: ["Node.js", "WebSocket", "Express.js", "pugjs", "Vercel", "Azure redis", "Azure Blobs"],
             image: "/images/mashup-api.gif",
-            liveDemo: "https://mashup-api.vercel.app/",
+            "View Live": "https://mashup-api.vercel.app/",
             github: "https://github.com/dhienf0707/Mashup_API",
         },
         {
@@ -135,52 +135,51 @@ const Projects = () => {
             description: "Customized Wireguard VPN Server on Oracle to bypass CGNAT problem and provide full access to IPv6",
             toolkit: ["VLAN", "Routing", "Subnetting", "NDP", "Oracle Cloud"],
             image: "/images/wireguard-server.webp",
-            blog: "/blog/wireguard-server",
+            Blog: "/Blog/wireguard-server",
         },
         {
             title: "Password Store",
             description: "Password Manager using git, gpg and Yubikey to store and encrypt passwords",
-            toolkit: ["git", "gpg", "bash", "zsh"],
+            toolkit: ["git", "gpg", "bash", "zsh", "security"],
             image: "/images/password-store.gif",
-            blog: "/blog/password-store",
+            Blog: "/Blog/password-store",
         },
         {
             title: "Process Overseer",
             description: "An ssh-alike program for executing and controlling server processes through client terminal by using socket programming with the help of cmake.",
-            toolkit: ["C", "System Programming", "Linux", "Cmake", "Socket Programming"],
-            image: "/images/portfolio.jpg",
+            toolkit: ["C", "System Programming", "Linux", "Cmake", "Socket Programming", "Parallelization"],
+            image: "/images/process-overseer.gif",
             github: "https://github.com/dhienf0707/process_overseer",
         },
         {
             title: "Link Aggregation",
             description: "Customized link aggregation and load balancing between 5G and Fibre network using a custom OpenWrt firmware to enhance network performance in rural areas",
             toolkit: ["Link Aggregation", "Load Balancing", "OpenWRT", "Raspberry Pi", "Oracle Cloud"],
-            image: "/images/portfolio.jpg",
-            blog: "https://yourportfolio.com",
-            github: "https://github.com/yourusername/portfolio",
+            image: '/images/link-aggregation.png',
+            Reference: "https://kamrul.dev/aggregate-multiple-internet-with-openmptcprouter/?fbclid=IwAR2klfC550FzcrxhyMUhLEA8P6-JNN7qwt1gAQAmj1WhQqMOVhhAqTHSO1U",
         },
         {
             title: "ThinkPad T400 Modification",
             description: "Hardware modificiation to my Thinkpad T400 to enable Quad-core support, Wifi 6, NVMe Storage and 5G connection",
             toolkit: ["Soldering", "EEPROM Programming", "Bios Mod", "Coreboot"],
-            image: "/images/portfolio.jpg",
-            blog: "https://yourportfolio.com",
+            image: '/images/t400.jpeg',
+            Blog: "https://yourportfolio.com",
             github: "https://github.com/yourusername/portfolio",
         },
         {
             title: "AMD Radeon™ RX 7900 XTX Overclocking",
             description: "Push my GPU to the limit with extreme hardware overclocking using liquid metal, shunt mod and watercooling",
             toolkit: ["Watercooling", "EEPROM Programming", "Bios Mod", "Soldering", "Shunt mod"],
-            image: "/images/portfolio.jpg",
-            blog: "https://yourportfolio.com",
+            image: '/images/7900xtx.jpg',
+            Blog: "https://yourportfolio.com",
             github: "https://github.com/yourusername/portfolio",
         },
         {
             title: "Advanced Object Recognition",
             description: "Propose a new method for training an object classification machine learning model that is both cost-effective and highly accurate.",
             toolkit: ["TensorFlow", "DCNN", "Image Processing", "Data Analysis"],
-            image: "/images/portfolio.jpg",
-            blog: "https://yourportfolio.com",
+            image: '/images/ml.gif',
+            Blog: "https://yourportfolio.com",
             github: "https://github.com/yourusername/portfolio",
         },
     ];
@@ -192,7 +191,9 @@ const Projects = () => {
                 {projects.map((project, index) => (
                     <ProjectCard key={index}>
                         <ProjectImageContainer>
-                            <ProjectImage src={project.image} alt={project.title} />
+                            {project.image ? (
+                                <ProjectImage src={project.image} alt={project.title} />
+                            ) : null}
                         </ProjectImageContainer>
                         <ProjectInfo>
                             <ProjectTitle>{project.title}</ProjectTitle>
@@ -203,22 +204,16 @@ const Projects = () => {
                                 ))}
                             </ProjectToolkit>
                             <ProjectLinks>
-                                {project.liveDemo ? (
-                                    <a href={project.liveDemo} target="_blank" rel="noopener noreferrer">
-                                        View Live
+                                {Object.keys(project)[4] !== 'github' ? (
+                                    <a href={project[(Object.keys(project)[4])]} target="_blank" rel="noopener noreferrer">
+                                        {Object.keys(project)[4]}
                                     </a>
-                                ) : (
-                                    project.blog ? (
-                                        <a href={project.blog} target="_blank" rel="noopener noreferrer">
-                                            Blog
-                                        </a>
-                                    ) : null
-                                )}
+                                ) : null}
                                 {project.github ? (
                                     <a href={project.github} target="_blank" rel="noopener noreferrer">
                                         GitHub
                                     </a>
-                                ): null}
+                                ) : null}
                             </ProjectLinks>
                         </ProjectInfo>
                     </ProjectCard>
