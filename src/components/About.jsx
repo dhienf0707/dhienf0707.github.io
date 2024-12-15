@@ -29,7 +29,7 @@ const About = () => {
           and cloud-based deployments. My experience extends to machine learning, computer vision
           and robotic where I design and implement models to derive actionable insights and enhance
           application functionality. Beyond coding, I also have a strong interest and
-          hands-on experience in hardware, networking, security,circuitry, and system administration.
+          hands-on experience in hardware, networking, security, circuitry, and system administration.
         </Paragraph>
       </Container>
     </Section>
