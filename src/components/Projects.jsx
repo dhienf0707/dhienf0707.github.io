@@ -111,7 +111,7 @@ const Projects = () => {
             description: "The thing that you are looking at right now 😁. This is a portfolio website that I built using ReactJS for client side and NextJS for server side. It is hosted on Vercel and uses Notion API to fetch my Blog posts and projects data.",
             toolkit: ["ReactJS", "NextJS", "Vercel", "CI/CD", "Notion API", "Redis", "Azure Blobs"],
             image: "/images/portfolio.gif",
-            "View Live": "https://jerrycat-portfolio.vercel.app/",
+            "View Live": "https://jerry-nguyen.vercel.app/",
             github: "https://github.com/dhienf0707/dhienf0707.github.io",
         },
         {
