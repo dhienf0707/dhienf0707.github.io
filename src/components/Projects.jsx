@@ -107,6 +107,12 @@ const ProjectLinks = styled.div`
 const Projects = () => {
     const projects = [
         {
+            title: "Autoclicker Microservice",
+            description: "Designed and implemented a scalable multi-threaded system to automate decentralized exchange (DeFi) trades using Selenium for browser automation. Engineered a Python FastAPI backend to transform scripts into an API server, enabling dynamic task queuing and execution. Integrated Eureka service discovery for seamless microservice coordination. Developed a TypeScript-based ViteJS frontend for intuitive task management and real-time interaction with backend services.",
+            toolkit: ["Python", "FastAPI", "Selenium", "Eureka", "TypeScript"],
+            image: "/images/autoclicker.gif",
+        },
+        {
             title: "My Portfolio",
             description: "The thing that you are looking at right now 😁. This is a portfolio website that I built using ReactJS for client side and NextJS for server side. It is hosted on Vercel and uses Notion API to fetch my Blog posts and projects data.",
             toolkit: ["ReactJS", "NextJS", "Vercel", "CI/CD", "Notion API", "Redis", "Azure Blobs"],
