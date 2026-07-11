@@ -148,7 +148,6 @@ const Projects = () => {
             description: "Password Manager using git, gpg and Yubikey to store and encrypt passwords",
             toolkit: ["git", "gpg", "bash", "zsh", "security"],
             image: "/images/password-store.gif",
-            Blog: "/Blog/password-store",
         },
         {
             title: "Process Overseer",
@@ -169,24 +168,18 @@ const Projects = () => {
             description: "Hardware modificiation to my Thinkpad T400 to enable Quad-core support, Wifi 6, NVMe Storage and 5G connection",
             toolkit: ["Soldering", "EEPROM Programming", "Bios Mod", "Coreboot"],
             image: '/images/t400.jpeg',
-            Blog: "https://yourportfolio.com",
-            github: "https://github.com/yourusername/portfolio",
         },
         {
             title: "AMD Radeon™ RX 7900 XTX Overclocking",
             description: "Push my GPU to the limit with extreme hardware overclocking using liquid metal, shunt mod and watercooling",
             toolkit: ["Watercooling", "EEPROM Programming", "Bios Mod", "Soldering", "Shunt mod"],
             image: '/images/7900xtx.jpg',
-            Blog: "https://yourportfolio.com",
-            github: "https://github.com/yourusername/portfolio",
         },
         {
             title: "Advanced Object Recognition",
             description: "Propose a new method for training an object classification machine learning model that is both cost-effective and highly accurate.",
             toolkit: ["TensorFlow", "DCNN", "Image Processing", "Data Analysis"],
             image: '/images/ml.gif',
-            Blog: "https://yourportfolio.com",
-            github: "https://github.com/yourusername/portfolio",
         },
     ];
 
