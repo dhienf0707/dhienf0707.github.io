@@ -33,10 +33,10 @@ jobs:
           output_location: "build" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
         env:
-          REACT_APP_SERVICEID: ${{ vars.REACT_APP_SERVICEID }}
-          REACT_APP_TEMPLATEID: ${{ vars.REACT_APP_TEMPLATEID }}
-          REACT_APP_USERID: ${{ vars.REACT_APP_USERID }}
-          REACT_APP_API_URL: ${{ vars.REACT_APP_API_URL }}
+          REACT_APP_SERVICEID: ${{ secrets.REACT_APP_SERVICEID }}
+          REACT_APP_TEMPLATEID: ${{ secrets.REACT_APP_TEMPLATEID }}
+          REACT_APP_USERID: ${{ secrets.REACT_APP_USERID }}
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
