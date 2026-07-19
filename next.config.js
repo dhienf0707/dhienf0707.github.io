@@ -5,9 +5,7 @@ const nextConfig = {
   },
   images: {
     remotePatterns: [
-      { protocol: "https", hostname: "utfs.io", pathname: "/**" },
-      { protocol: "https", hostname: "ufs.sh", pathname: "/**" },
-      { protocol: "https", hostname: "**.ufs.sh", pathname: "/**" },
+      { protocol: "https", hostname: "**.blob.core.windows.net", pathname: "/**" },
     ],
   },
 };

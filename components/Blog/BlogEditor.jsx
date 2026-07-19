@@ -13,15 +13,10 @@ import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/core/fonts/inter.css";
 import "@blocknote/mantine/style.css";
 import "./BlogEditor.css";
-import { uploadFiles } from "@/lib/uploadthing";
+import { uploadImage } from "@/lib/uploads-client";
 
 async function uploadFile(file) {
-  const result = await uploadFiles("postImage", { files: [file] });
-  const uploaded = result?.[0];
-  if (!uploaded) {
-    throw new Error("Image upload failed");
-  }
-  return uploaded.ufsUrl || uploaded.url;
+  return uploadImage(file, "posts");
 }
 
 // 1. Extend the default schema with code block highlighting options
@@ -55,7 +50,7 @@ export default function BlogEditor({
     initialContent:
       initialContent && initialContent.length > 0 ? initialContent : undefined,
     schema,
-    // Image/file paste & drop: uploads via UploadThing and inserts an image block.
+    // Image/file paste & drop: uploads to Azure Blob Storage and inserts an image block.
     uploadFile: editable ? uploadFile : undefined,
     // Markdown, HTML, plain text, VS Code snippets, and BlockNote HTML are handled
     // by BlockNote's default paste pipeline. This handler opts into rich markdown

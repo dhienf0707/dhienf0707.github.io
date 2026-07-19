@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import styled from "styled-components";
 import dynamic from "next/dynamic";
-import { UploadButton } from "@/lib/uploadthing";
+import { uploadImage } from "@/lib/uploads-client";
 import { slugify } from "@/lib/posts-client";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { canDeletePost } from "@/lib/auth-client";
@@ -30,6 +30,7 @@ export default function PostEditorForm({
   const [coverImageUrl, setCoverImageUrl] = useState(post?.coverImageUrl || "");
   const [content, setContent] = useState(post?.content || []);
   const [saving, setSaving] = useState(false);
+  const [uploadingCover, setUploadingCover] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
@@ -58,6 +59,24 @@ export default function PostEditorForm({
     setTitle(value);
     if (!slugTouched) {
       setSlug(slugify(value));
+    }
+  };
+
+  const handleCoverUpload = async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setUploadingCover(true);
+    setError("");
+
+    try {
+      const url = await uploadImage(file, "covers");
+      setCoverImageUrl(url);
+    } catch (err) {
+      setError(err.message || "Cover image upload failed");
+    } finally {
+      setUploadingCover(false);
+      event.target.value = "";
     }
   };
 
@@ -170,16 +189,15 @@ export default function PostEditorForm({
             </RemoveCover>
           </CoverPreview>
         ) : (
-          <UploadButton
-            endpoint="coverImage"
-            onClientUploadComplete={(res) => {
-              const file = res?.[0];
-              if (file) {
-                setCoverImageUrl(file.ufsUrl || file.url);
-              }
-            }}
-            onUploadError={(err) => setError(err.message)}
-          />
+          <CoverUploadLabel>
+            <CoverUploadInput
+              type="file"
+              accept="image/*"
+              onChange={handleCoverUpload}
+              disabled={uploadingCover}
+            />
+            {uploadingCover ? "Uploading…" : "Upload cover image"}
+          </CoverUploadLabel>
         )}
       </Field>
 
@@ -272,6 +290,28 @@ const CoverPreview = styled.div`
     object-fit: cover;
     border-radius: 8px;
   }
+`;
+
+const CoverUploadLabel = styled.label`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  background: #007bff;
+  color: #fff;
+  border-radius: 6px;
+  padding: 0.7rem 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+
+  &:has(input:disabled) {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+`;
+
+const CoverUploadInput = styled.input`
+  display: none;
 `;
 
 const RemoveCover = styled.button`
