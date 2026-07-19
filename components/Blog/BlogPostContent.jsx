@@ -7,6 +7,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import BlogPostViewer from "@/components/Blog/BlogPostViewer";
 import PostEditorForm from "@/components/Blog/PostEditorForm";
 import { canManagePost, canDeletePost } from "@/lib/auth-client";
+import { revalidateBlogPath } from "@/lib/revalidate-client";
 
 export default function BlogPostContent({ post: initialPost }) {
   const { user, isLoading } = useUser();
@@ -15,6 +16,7 @@ export default function BlogPostContent({ post: initialPost }) {
   const [post, setPost] = useState(initialPost);
   const [isEditing, setIsEditing] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -37,6 +39,19 @@ export default function BlogPostContent({ post: initialPost }) {
   const date = post.publishedAt || post.createdAt;
   const canEdit = canManagePost(user, post);
   const canDelete = canDeletePost(user, post);
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    setError("");
+    try {
+      await revalidateBlogPath(`/blog/${post.slug}`);
+      router.refresh();
+    } catch (err) {
+      setError(err.message || "Failed to refresh");
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
   const handleDelete = async () => {
     if (!window.confirm(`Delete “${post.title}”?`)) return;
@@ -95,25 +110,31 @@ export default function BlogPostContent({ post: initialPost }) {
           {date ? new Date(date).toLocaleDateString() : null}
           {post.authorName ? ` · ${post.authorName}` : null}
         </Meta>
-        {(canEdit || canDelete) && (
-          <ManageActions>
-            {canEdit && (
-              <ActionButton type="button" onClick={() => setIsEditing(true)}>
-                Edit
-              </ActionButton>
-            )}
-            {canDelete && (
-              <ActionButton
-                type="button"
-                $variant="danger"
-                onClick={handleDelete}
-                disabled={deleting}
-              >
-                {deleting ? "Deleting…" : "Delete"}
-              </ActionButton>
-            )}
-          </ManageActions>
-        )}
+        <ManageActions>
+          <ActionButton
+            type="button"
+            $variant="secondary"
+            onClick={handleRefresh}
+            disabled={refreshing}
+          >
+            {refreshing ? "Refreshing…" : "Refresh"}
+          </ActionButton>
+          {canEdit && (
+            <ActionButton type="button" onClick={() => setIsEditing(true)}>
+              Edit
+            </ActionButton>
+          )}
+          {canDelete && (
+            <ActionButton
+              type="button"
+              $variant="danger"
+              onClick={handleDelete}
+              disabled={deleting}
+            >
+              {deleting ? "Deleting…" : "Delete"}
+            </ActionButton>
+          )}
+        </ManageActions>
         {error ? <ErrorText>{error}</ErrorText> : null}
       </PostHeader>
       <BlogPostViewer content={post.content} />
@@ -166,10 +187,21 @@ const ManageActions = styled.div`
 `;
 
 const ActionButton = styled.button`
-  background: ${({ $variant }) => ($variant === "danger" ? "#fff" : "#007bff")};
-  color: ${({ $variant }) => ($variant === "danger" ? "#c0392b" : "#fff")};
+  background: ${({ $variant }) =>
+    $variant === "danger" || $variant === "secondary" ? "#fff" : "#007bff"};
+  color: ${({ $variant }) =>
+    $variant === "danger"
+      ? "#c0392b"
+      : $variant === "secondary"
+        ? "#333"
+        : "#fff"};
   border: 1px solid
-    ${({ $variant }) => ($variant === "danger" ? "#c0392b" : "#007bff")};
+    ${({ $variant }) =>
+      $variant === "danger"
+        ? "#c0392b"
+        : $variant === "secondary"
+          ? "#ccc"
+          : "#007bff"};
   font-weight: 700;
   padding: 0.55rem 1rem;
   border-radius: 6px;

@@ -11,6 +11,7 @@ import {
   canManagePost,
   canDeletePost,
 } from "@/lib/auth-client";
+import { revalidateBlogPath } from "@/lib/revalidate-client";
 import BlogListSkeleton from "@/components/Blog/BlogListSkeleton";
 
 const PostEditorForm = dynamic(
@@ -27,7 +28,21 @@ export default function BlogList({ posts = [] }) {
   const canCreate = canEditPosts(user);
   const [isAdding, setIsAdding] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState("");
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    setError("");
+    try {
+      await revalidateBlogPath("/blog");
+      router.refresh();
+    } catch (err) {
+      setError(err.message || "Failed to refresh");
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
   const handleDelete = async (post) => {
     if (!window.confirm(`Delete “${post.title}”?`)) return;
@@ -72,11 +87,21 @@ export default function BlogList({ posts = [] }) {
     <BlogSection>
       <HeaderRow>
         <SectionTitle>Blog Posts</SectionTitle>
-        {!isLoading && canCreate && (
-          <ActionButton type="button" onClick={() => setIsAdding(true)}>
-            Add
+        <HeaderActions>
+          <ActionButton
+            type="button"
+            $variant="secondary"
+            disabled={refreshing}
+            onClick={handleRefresh}
+          >
+            {refreshing ? "Refreshing…" : "Refresh"}
           </ActionButton>
-        )}
+          {!isLoading && canCreate && (
+            <ActionButton type="button" onClick={() => setIsAdding(true)}>
+              Add
+            </ActionButton>
+          )}
+        </HeaderActions>
       </HeaderRow>
       {error ? <ErrorText>{error}</ErrorText> : null}
       {posts.length === 0 ? (
@@ -155,6 +180,13 @@ const HeaderRow = styled.div`
   align-items: center;
   gap: 1rem;
   margin-bottom: 3rem;
+  flex-wrap: wrap;
+`;
+
+const HeaderActions = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
   flex-wrap: wrap;
 `;
 
