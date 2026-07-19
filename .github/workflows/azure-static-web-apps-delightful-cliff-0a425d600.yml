@@ -11,6 +11,7 @@ on:
 
 jobs:
   build_and_deploy_job:
+    environment: Production
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     name: Build and Deploy Job
@@ -32,6 +33,12 @@ jobs:
           api_location: "" # Api source code path - optional
           output_location: "" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
+        env:
+          NEXT_PUBLIC_AUTH0_ROLES_CLAIM: ${{ secrets.NEXT_PUBLIC_AUTH0_ROLES_CLAIM }}
+          NEXT_PUBLIC_SERVICEID: ${{ secrets.NEXT_PUBLIC_SERVICEID }}
+          NEXT_PUBLIC_TEMPLATEID: ${{ secrets.NEXT_PUBLIC_TEMPLATEID }}
+          NEXT_PUBLIC_USERID: ${{ secrets.NEXT_PUBLIC_USERID }}
+
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
