@@ -11,7 +11,7 @@ import {
   canManagePost,
   canDeletePost,
 } from "@/lib/auth-client";
-import { revalidateBlogPath } from "@/lib/revalidate-client";
+import { useBlogRefresh } from "@/lib/use-blog-refresh";
 import BlogListSkeleton from "@/components/Blog/BlogListSkeleton";
 
 const PostEditorForm = dynamic(
@@ -28,21 +28,9 @@ export default function BlogList({ posts = [] }) {
   const canCreate = canEditPosts(user);
   const [isAdding, setIsAdding] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
-  const [refreshing, setRefreshing] = useState(false);
-  const [error, setError] = useState("");
+  const { refreshBlog, refreshing, error, setError } = useBlogRefresh();
 
-  const handleRefresh = async () => {
-    setRefreshing(true);
-    setError("");
-    try {
-      await revalidateBlogPath("/blog");
-      router.refresh();
-    } catch (err) {
-      setError(err.message || "Failed to refresh");
-    } finally {
-      setRefreshing(false);
-    }
-  };
+  const handleRefresh = () => refreshBlog("/blog");
 
   const handleDelete = async (post) => {
     if (!window.confirm(`Delete “${post.title}”?`)) return;

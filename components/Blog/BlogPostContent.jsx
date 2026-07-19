@@ -7,7 +7,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import BlogPostViewer from "@/components/Blog/BlogPostViewer";
 import PostEditorForm from "@/components/Blog/PostEditorForm";
 import { canManagePost, canDeletePost } from "@/lib/auth-client";
-import { revalidateBlogPath } from "@/lib/revalidate-client";
+import { useBlogRefresh } from "@/lib/use-blog-refresh";
 
 export default function BlogPostContent({ post: initialPost }) {
   const { user, isLoading } = useUser();
@@ -16,8 +16,7 @@ export default function BlogPostContent({ post: initialPost }) {
   const [post, setPost] = useState(initialPost);
   const [isEditing, setIsEditing] = useState(false);
   const [deleting, setDeleting] = useState(false);
-  const [refreshing, setRefreshing] = useState(false);
-  const [error, setError] = useState("");
+  const { refreshBlog, refreshing, error, setError } = useBlogRefresh();
 
   useEffect(() => {
     setPost(initialPost);
@@ -40,18 +39,7 @@ export default function BlogPostContent({ post: initialPost }) {
   const canEdit = canManagePost(user, post);
   const canDelete = canDeletePost(user, post);
 
-  const handleRefresh = async () => {
-    setRefreshing(true);
-    setError("");
-    try {
-      await revalidateBlogPath(`/blog/${post.slug}`);
-      router.refresh();
-    } catch (err) {
-      setError(err.message || "Failed to refresh");
-    } finally {
-      setRefreshing(false);
-    }
-  };
+  const handleRefresh = () => refreshBlog(`/blog/${post.slug}`);
 
   const handleDelete = async () => {
     if (!window.confirm(`Delete “${post.title}”?`)) return;
