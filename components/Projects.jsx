@@ -116,8 +116,8 @@ const Projects = () => {
         },
         {
             title: "My Portfolio",
-            description: "The thing that you are looking at right now 😁. This is a portfolio website that I built using ReactJS for client side and NextJS for server side. It is hosted on Vercel and uses Notion API to fetch my Blog posts and projects data.",
-            toolkit: ["ReactJS", "NextJS", "Vercel", "CI/CD", "Notion API", "Redis", "Azure Blobs"],
+            description: "The thing that you are looking at right now 😁. A Next.js 15 portfolio with a built-in blog CMS backed by Azure Cosmos DB and Auth0 role-based editing for authors and admins. Features BlockNote WYSIWYG editing with Shiki syntax highlighting, UploadThing image uploads, ISR with on-demand revalidation, an EmailJS contact form, and CI/CD via GitHub Actions for Azure Static Web Apps.",
+            toolkit: ["Next.js", "React", "Auth0", "Azure Cosmos DB", "Azure Static Web Apps", "BlockNote", "UploadThing", "Shiki", "GitHub Actions"],
             image: "/images/portfolio.gif",
             "View Live": "https://jerry-nguyen.vercel.app/",
             github: "https://github.com/dhienf0707/dhienf0707.github.io",
