@@ -1,70 +1,71 @@
-# Getting Started with Create React App
+# Portfolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Personal portfolio site built with Next.js, BlockNote, Cosmos DB, Auth0, and UploadThing.
 
-## Available Scripts
+## Getting Started
 
-In the project directory, you can run:
+```bash
+npm install
+npm run dev
+```
 
-### `npm start`
+Open [http://localhost:3000](http://localhost:3000).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Environment Variables
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Copy `.env.example` to `.env.local` and fill in values:
 
-### `npm test`
+```env
+AUTH0_DOMAIN=
+AUTH0_CLIENT_ID=
+AUTH0_CLIENT_SECRET=
+AUTH0_SECRET=
+APP_BASE_URL=http://localhost:3000
+AUTH0_ROLES_CLAIM=https://portfolio.local/roles
+NEXT_PUBLIC_AUTH0_ROLES_CLAIM=https://portfolio.local/roles
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+COSMOS_ENDPOINT=
+COSMOS_KEY=
+COSMOS_DATABASE=portfolio
+COSMOS_CONTAINER=posts
 
-### `npm run build`
+UPLOADTHING_TOKEN=
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+NEXT_PUBLIC_SERVICEID=
+NEXT_PUBLIC_TEMPLATEID=
+NEXT_PUBLIC_USERID=
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Auth0 roles
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Create roles `admin` and `author` in Auth0 Authorization (RBAC). Add an Action (Login / Post Login) that sets the custom claim matching `AUTH0_ROLES_CLAIM`, for example:
 
-### `npm run eject`
+```js
+exports.onExecutePostLogin = async (event, api) => {
+  const namespace = "https://portfolio.local";
+  if (event.authorization) {
+    api.idToken.setCustomClaim(`${namespace}/roles`, event.authorization.roles);
+    api.accessToken.setCustomClaim(`${namespace}/roles`, event.authorization.roles);
+  }
+};
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Assign users the `admin` or `author` role. Callback URL: `{APP_BASE_URL}/auth/callback`. Logout URL: `{APP_BASE_URL}`.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Cosmos DB
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Create a database/container (`posts`) with partition key `/id`.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Scripts
 
-## Learn More
+- `npm run dev` — development server
+- `npm run build` — production build
+- `npm start` — run production server
+- `npm run lint` — ESLint
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Routes
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- `/blog` — post list; **Add** opens the editor inline; **Edit** opens the post in edit mode; **Delete** (admin)
+- `/blog/[slug]` — post view; **Edit** / **Delete** toggle in place (no separate edit route)
+- `/api/posts` — GET list, POST create
+- `/api/posts/[slug]` — GET by slug; PUT by id/slug; DELETE admin-only

@@ -1,0 +1,6 @@
+.bn-inline-content code {
+  background-color: rgba(135, 131, 120, 0.15);
+  border-radius: 3px;
+  font-size: 0.85em;
+  padding: 0.15em 0.35em;
+}
