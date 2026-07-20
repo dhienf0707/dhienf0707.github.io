@@ -58,7 +58,9 @@ export default function BlogList({ posts = [] }) {
       if (!response.ok) {
         throw new Error(data.error || "Failed to delete post");
       }
-      await refreshBlog("/blog");
+      await revalidateBlogPath("/blog");
+      await refreshRouter();
+      markBlogListStale();
     } catch (err) {
       setError(err.message || "Failed to delete post");
     } finally {
