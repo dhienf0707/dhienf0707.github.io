@@ -8,6 +8,7 @@ import BlogPostViewer from "@/components/Blog/BlogPostViewer";
 import PostEditorForm from "@/components/Blog/PostEditorForm";
 import { canManagePost, canDeletePost } from "@/lib/auth-client";
 import { useBlogRefresh } from "@/lib/use-blog-refresh";
+import { revalidateBlogPath } from "@/lib/revalidate-client";
 
 export default function BlogPostContent({ post: initialPost }) {
   const { user, isLoading } = useUser();
@@ -54,8 +55,8 @@ export default function BlogPostContent({ post: initialPost }) {
       if (!response.ok) {
         throw new Error(data.error || "Failed to delete post");
       }
+      await revalidateBlogPath("/blog");
       router.push("/blog");
-      router.refresh();
     } catch (err) {
       setError(err.message || "Failed to delete post");
       setDeleting(false);
@@ -70,17 +71,18 @@ export default function BlogPostContent({ post: initialPost }) {
           key={post.id}
           post={post}
           onCancel={() => setIsEditing(false)}
-          onSaved={(saved) => {
-            setPost(saved);
-            setIsEditing(false);
+          onSaved={async (saved) => {
             if (saved.slug !== post.slug) {
               router.replace(`/blog/${saved.slug}`);
+              return;
             }
-            router.refresh();
+            setPost(saved);
+            setIsEditing(false);
+            await refreshBlog(`/blog/${post.slug}`);
           }}
-          onDeleted={() => {
+          onDeleted={async () => {
+            await revalidateBlogPath("/blog");
             router.push("/blog");
-            router.refresh();
           }}
         />
       </PostContainer>

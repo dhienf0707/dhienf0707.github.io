@@ -45,7 +45,7 @@ export default function BlogList({ posts = [] }) {
       if (!response.ok) {
         throw new Error(data.error || "Failed to delete post");
       }
-      router.refresh();
+      await refreshBlog("/blog");
     } catch (err) {
       setError(err.message || "Failed to delete post");
     } finally {
@@ -62,9 +62,7 @@ export default function BlogList({ posts = [] }) {
         <PostEditorForm
           onCancel={() => setIsAdding(false)}
           onSaved={(saved) => {
-            setIsAdding(false);
             router.push(`/blog/${saved.slug}`);
-            router.refresh();
           }}
         />
       </BlogSection>
