@@ -28,13 +28,18 @@ const PostEditorForm = dynamic(
   }
 );
 
+/** Set to 0 to disable. Artificial delay so multi-delete UI can be tested. */
+const DELETE_TEST_DELAY_MS = 0;
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export default function BlogList({ posts = [] }) {
   const { user, isLoading } = useUser();
   const router = useRouter();
   const refreshRouter = useRouterRefresh();
   const canCreate = canEditPosts(user);
   const [isAdding, setIsAdding] = useState(false);
-  const [deletingId, setDeletingId] = useState(null);
+  const [deletingIds, setDeletingIds] = useState(() => new Set());
   const [syncingList, setSyncingList] = useState(() => consumeBlogListStale());
   const { refreshBlog, refreshing, error, setError } = useBlogRefresh();
 
@@ -48,7 +53,7 @@ export default function BlogList({ posts = [] }) {
   const handleDelete = async (post) => {
     if (!window.confirm(`Delete “${post.title}”?`)) return;
 
-    setDeletingId(post.id);
+    setDeletingIds((prev) => new Set(prev).add(post.id));
     setError("");
     try {
       const response = await fetch(`/api/posts/${post.id}`, {
@@ -58,13 +63,19 @@ export default function BlogList({ posts = [] }) {
       if (!response.ok) {
         throw new Error(data.error || "Failed to delete post");
       }
+      if (DELETE_TEST_DELAY_MS > 0) {
+        await sleep(DELETE_TEST_DELAY_MS);
+      }
       await revalidateBlogPath("/blog");
       await refreshRouter();
-      markBlogListStale();
     } catch (err) {
       setError(err.message || "Failed to delete post");
     } finally {
-      setDeletingId(null);
+      setDeletingIds((prev) => {
+        const next = new Set(prev);
+        next.delete(post.id);
+        return next;
+      });
     }
   };
 
@@ -152,10 +163,10 @@ export default function BlogList({ posts = [] }) {
                           <ActionButton
                             type="button"
                             $variant="danger"
-                            disabled={deletingId === post.id}
+                            disabled={deletingIds.has(post.id)}
                             onClick={() => handleDelete(post)}
                           >
-                            {deletingId === post.id ? "Deleting…" : "Delete"}
+                            {deletingIds.has(post.id) ? "Deleting…" : "Delete"}
                           </ActionButton>
                         )}
                       </ManageActions>
