@@ -119,7 +119,7 @@ const Projects = () => {
             description: "The thing that you are looking at right now 😁. A Next.js 15 portfolio with a built-in blog CMS backed by Azure Cosmos DB and Auth0 role-based editing for authors and admins. Features BlockNote WYSIWYG editing with Shiki syntax highlighting, Azure Blob Storage image uploads, ISR with on-demand revalidation, an EmailJS contact form, and CI/CD via GitHub Actions for Azure Static Web Apps.",
             toolkit: ["Next.js", "React", "Auth0", "Azure Cosmos DB", "Azure Static Web Apps", "Azure Blob Storage", "BlockNote", "Shiki", "GitHub Actions"],
             image: "/images/portfolio.gif",
-            "View Live": "https://jerry-nguyen.vercel.app/",
+            "View Live": "https://jerry.tbn.solutions",
             github: "https://github.com/dhienf0707/dhienf0707.github.io",
         },
         {
