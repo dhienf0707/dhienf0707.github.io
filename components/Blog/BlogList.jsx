@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -13,6 +13,11 @@ import {
   canDeletePost,
 } from "@/lib/auth-client";
 import { useBlogRefresh } from "@/lib/use-blog-refresh";
+import { useRouterRefresh } from "@/lib/use-router-refresh";
+import {
+  markBlogListStale,
+  consumeBlogListStale,
+} from "@/lib/blog-list-stale";
 import BlogListSkeleton from "@/components/Blog/BlogListSkeleton";
 
 const PostEditorForm = dynamic(
@@ -26,10 +31,17 @@ const PostEditorForm = dynamic(
 export default function BlogList({ posts = [] }) {
   const { user, isLoading } = useUser();
   const router = useRouter();
+  const refreshRouter = useRouterRefresh();
   const canCreate = canEditPosts(user);
   const [isAdding, setIsAdding] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
+  const [syncingList, setSyncingList] = useState(() => consumeBlogListStale());
   const { refreshBlog, refreshing, error, setError } = useBlogRefresh();
+
+  useEffect(() => {
+    if (!syncingList) return;
+    refreshRouter().finally(() => setSyncingList(false));
+  }, [syncingList, refreshRouter]);
 
   const handleRefresh = () => refreshBlog("/blog");
 
@@ -63,11 +75,19 @@ export default function BlogList({ posts = [] }) {
         <PostEditorForm
           onCancel={() => setIsAdding(false)}
           onSaved={async (saved) => {
-            // revaildate the blog route so when user happen to click on Blog Posts, it will show the new post
             await revalidateBlogPath("/blog");
+            markBlogListStale();
             router.push(`/blog/${saved.slug}`);
           }}
         />
+      </BlogSection>
+    );
+  }
+
+  if (syncingList) {
+    return (
+      <BlogSection>
+        <BlogListSkeleton />
       </BlogSection>
     );
   }

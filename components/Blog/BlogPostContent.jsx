@@ -9,6 +9,7 @@ import PostEditorForm from "@/components/Blog/PostEditorForm";
 import { canManagePost, canDeletePost } from "@/lib/auth-client";
 import { useBlogRefresh } from "@/lib/use-blog-refresh";
 import { revalidateBlogPath } from "@/lib/revalidate-client";
+import { markBlogListStale } from "@/lib/blog-list-stale";
 
 export default function BlogPostContent({ post: initialPost }) {
   const { user, isLoading } = useUser();
@@ -56,6 +57,7 @@ export default function BlogPostContent({ post: initialPost }) {
         throw new Error(data.error || "Failed to delete post");
       }
       await revalidateBlogPath("/blog");
+      markBlogListStale();
       router.push("/blog");
     } catch (err) {
       setError(err.message || "Failed to delete post");
@@ -72,6 +74,8 @@ export default function BlogPostContent({ post: initialPost }) {
           post={post}
           onCancel={() => setIsEditing(false)}
           onSaved={async (saved) => {
+            await revalidateBlogPath("/blog");
+            markBlogListStale();
             if (saved.slug !== post.slug) {
               router.replace(`/blog/${saved.slug}`);
               return;
@@ -82,6 +86,7 @@ export default function BlogPostContent({ post: initialPost }) {
           }}
           onDeleted={async () => {
             await revalidateBlogPath("/blog");
+            markBlogListStale();
             router.push("/blog");
           }}
         />
