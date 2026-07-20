@@ -85,11 +85,7 @@ export default function BlogList({ posts = [] }) {
   }
 
   if (syncingList) {
-    return (
-      <BlogSection>
-        <BlogListSkeleton />
-      </BlogSection>
-    );
+    return <BlogListSkeleton />;
   }
 
   return (
