@@ -6,6 +6,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { revalidateBlogPath } from "@/lib/revalidate-client";
 import {
   canEditPosts,
   canManagePost,
@@ -61,7 +62,9 @@ export default function BlogList({ posts = [] }) {
         </ComposerHeader>
         <PostEditorForm
           onCancel={() => setIsAdding(false)}
-          onSaved={(saved) => {
+          onSaved={async (saved) => {
+            // revaildate the blog route so when user happen to click on Blog Posts, it will show the new post
+            await revalidateBlogPath("/blog");
             router.push(`/blog/${saved.slug}`);
           }}
         />
